@@ -6,4 +6,3 @@ export const API_ROUTES = {
   TEAMS: `${API_URL}/teams`
 };
 
-export const BASE_URL = API_URL;

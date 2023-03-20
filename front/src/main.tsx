@@ -1,37 +1,44 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { MantineProvider } from '@mantine/core';
+import { MantineProvider, createEmotionCache } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
-
-
 import {
-  createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import LoginRegister from './Pages/Login';
-import ReadUsers from './Pages/Users/Partials/Read';
-const router = createBrowserRouter([
-  {
-    path: "/login",
-    element: <LoginRegister/>,
-  },
-  {
-    path: "/app",
-    element: <LoginRegister/>,
-  },
-  {
-    path: "/app/users",
-    element: <ReadUsers/>,
-  },
-]);
+import { Notifications } from '@mantine/notifications';
+
+import router from '@mind/utils/browser_router';
+
+const emotionCache = createEmotionCache({ key: "mind" });
+
+const App = () => {
+  useEffect(() => {
+  }, []);
+  // const branch = matchRoutes(, location);
+
+  return (
+    <MantineProvider
+      withNormalizeCSS
+      withGlobalStyles
+      emotionCache={emotionCache}
+      theme={{
+        loader: "bars",
+        primaryColor: "gray",
+        primaryShade: 7
+      }}>
+      <ModalsProvider>
+
+        <RouterProvider router={router} />
+      </ModalsProvider>
+    </MantineProvider>);
+};
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <MantineProvider theme={{primaryColor:'gray',primaryShade:7}}>
-      <ModalsProvider>
-      <RouterProvider router={router} />
-      </ModalsProvider>
-    </MantineProvider>
+    <Notifications />
+    <App />
   </React.StrictMode>,
 );
+
+

@@ -9,6 +9,10 @@ export class User {
   createdAt: string;
   updatedAt: string;
   avatar?: string;
+  // ----
+  englishLevel?: string;
+  technicalSkills?: string;
+  cvLink?: string;
 
  
 
@@ -21,6 +25,9 @@ export class User {
     createdAt,
     updatedAt,
     avatar,
+    englishLevel,
+    technicalSkills,
+    cvLink,
   }:{
     id: string,
     name: string,
@@ -30,6 +37,9 @@ export class User {
     createdAt: string,
     updatedAt: string,
     avatar?: string,
+    englishLevel?: string,
+    technicalSkills?: string,
+    cvLink?: string,
   }) {
     this.id = id;
     this.name = name;
@@ -39,6 +49,10 @@ export class User {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.avatar = avatar;
+    this.englishLevel = englishLevel;
+    this.technicalSkills = technicalSkills;
+    this.cvLink = cvLink;
+
   }
 
   // example method that formats the user's name
@@ -52,8 +66,8 @@ export class User {
   }
    // method to create a User instance from a JSON object
    static fromJson(json: any): User {
-    const {id,  name, lastName, role, email, createdAt, updatedAt, avatar } = json;
+    const {id,  name, lastName, role, email, createdAt, updatedAt, avatar , englishLevel, technicalSkills, cvLink} = json;
     // return new User({ id,name, lastName, role, email, createdAt: new Date(createdAt), updatedAt: new Date(updatedAt), avatar });
-    return new User({ id,name, lastName, role, email, createdAt: createdAt, updatedAt: updatedAt, avatar });
+    return new User({ id,name, lastName, role, email, createdAt: createdAt, updatedAt: updatedAt, avatar,englishLevel, technicalSkills, cvLink });
   }
 }
