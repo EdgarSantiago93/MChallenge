@@ -12,12 +12,21 @@ import router from '@mind/utils/browser_router';
 
 const emotionCache = createEmotionCache({ key: "mind" });
 
-const App = () => {
-  useEffect(() => {
-  }, []);
-  // const branch = matchRoutes(, location);
 
-  return (
+// const App = () => {
+//   // useEffect(() => {
+//   // }, []);
+//   // const branch = matchRoutes(, location);
+
+//   return (
+ 
+//     );
+// };
+
+
+
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  // <React.StrictMode>
     <MantineProvider
       withNormalizeCSS
       withGlobalStyles
@@ -28,17 +37,11 @@ const App = () => {
         primaryShade: 7
       }}>
       <ModalsProvider>
-
+      <Notifications />
         <RouterProvider router={router} />
       </ModalsProvider>
-    </MantineProvider>);
-};
-
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <Notifications />
-    <App />
-  </React.StrictMode>,
+    </MantineProvider>
+//  </React.StrictMode>,
 );
 
 

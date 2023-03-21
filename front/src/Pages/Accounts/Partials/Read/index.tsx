@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import { createStyles, Table, Checkbox, Group, Avatar, Text, rem, Title, ScrollArea, Transition, Menu, Button, Space, ActionIcon, Drawer } from '@mantine/core';
 import MainLayout from '@mind/Pages/Layout';
 import { User } from '@mind/data/models/User';
@@ -23,9 +23,7 @@ const useStyles = createStyles((theme) => ({
 
 
 //  const ReadUsers= ({ datak }: TableSelectionProps) =>{
-const ReadTeams = () => {
-
-
+const ReadAccounts = () => {
 
   const data: User[] = [
     new User({
@@ -174,17 +172,11 @@ const ReadTeams = () => {
 
   const [createUserDrawerIsOpened, setCreateUserDrawerIsOpened] = useState(false);
 
-
-useEffect(() => {
-  console.log('read teams');
-}, []);
-
   return (
-    <MainLayout title='Teams' >
+    <MainLayout title='Accounts' >
       <CreateTeamDrawer isOpened={createUserDrawerIsOpened} setIsOpened={setCreateUserDrawerIsOpened} />
       <ScrollArea>
         <div style={{ display: "flex", justifyContent: "space-between", height: 35, marginTop: 15 }}>
-
           <div>
             <Transition mounted={selection.length > 0} transition="scale" duration={120} timingFunction="ease">
               {(styles) => <div style={styles}>
@@ -234,9 +226,9 @@ useEffect(() => {
                 />
               </th>
               <th>Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Role</th>
+              <th>Client</th>
+              <th>In charge</th>
+              <th>Teams</th>
               <th>Created at</th>
               <th>Last updated</th>
               <th></th>
@@ -251,4 +243,4 @@ useEffect(() => {
     </MainLayout>
   );
 };
-export default ReadTeams;
+export default ReadAccounts;

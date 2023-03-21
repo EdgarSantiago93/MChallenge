@@ -6,6 +6,7 @@ import {
   IconGitMerge, IconTrash, IconBriefcase, IconPlus
 } from '@tabler/icons-react';
 import CreateUserDrawer from '@mind/components/CreateUserDrawer';
+import { NavLink } from 'react-router-dom';
 
 interface TableSelectionProps {
   datak: { avatar: string; name: string; email: string; job: string; id: string; }[];
@@ -162,9 +163,14 @@ const ReadUsers = () => {
         <td>{user.role}</td>
         <td>{user.createdAt}</td>
         <td>{user.updatedAt}</td>
-        <td><ActionIcon>
+        <td>
+        <NavLink to={'334'} style={{ textDecoration: 'none' }}>
+        <ActionIcon>
           <IconBriefcase size={20} />
-        </ActionIcon></td>
+        </ActionIcon>
+</NavLink>
+        
+        </td>
       </tr>
     );
   });
@@ -177,7 +183,6 @@ const ReadUsers = () => {
       <CreateUserDrawer isOpened={createUserDrawerIsOpened} setIsOpened={setCreateUserDrawerIsOpened} />
       <ScrollArea>
         <div style={{ display: "flex", justifyContent: "space-between", height: 35, marginTop: 15 }}>
-
 
           <div>
             <Transition mounted={selection.length > 0} transition="scale" duration={120} timingFunction="ease">
@@ -212,11 +217,9 @@ const ReadUsers = () => {
           </Button>
 
 
-
         </div>
 
-
-        <Table miw={"100%"} verticalSpacing="sm">
+        <Table miw={"100%"} verticalSpacing="xs">
           <thead>
             <tr>
               <th style={{ width: rem(40) }}>

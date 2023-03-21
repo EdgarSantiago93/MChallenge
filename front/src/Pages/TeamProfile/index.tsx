@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import MainLayout from '@mind/Pages/Layout';
+import DragList from '@mind/Pages/TeamProfile/list';
 import { Timeline, Text, Group, Avatar, Title, Flex, Tooltip, Space, Divider, Button, useMantineTheme, ScrollArea, Container, Transition } from '@mantine/core';
 import { IconCircles, IconPlus, IconTriangleSquareCircle, IconEdit, IconTrash, IconCheck } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
@@ -19,7 +20,7 @@ interface Props {
 
 import { TextInput, Checkbox, Box, Select, Textarea } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface DataFieldProps {
   title: string;
@@ -41,26 +42,15 @@ const DataField = (props: DataFieldProps) => {
 };
 import { notifications } from '@mantine/notifications';
 
-const EditUserForm = () => {
+const EditTeamForm = () => {
   const form = useForm({
     initialValues: {
       name: '',
-      lastName: '',
-      email: '',
-      role: '',
-      englishLevel: '',
-      cv_link: '',
-      technicalSkills: '',
-      team: '',
-      account: ''
+      description: '',
     },
 
     validate: {
       name: (value) => (value.length > 0 ? null : 'Name is required'),
-      lastName: (value) => (value.length > 0 ? null : 'Last name is required'),
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-      role: (value) => (value.length > 0 ? null : 'Role is required'),
-      cv_link: (value) => (value.length > 0 ? null : 'CV link is required'),
     },
   });
 
@@ -74,97 +64,16 @@ const EditUserForm = () => {
         {...form.getInputProps('name')}
       />
       <Space h={10} />
-      <TextInput
-        withAsterisk
-        label="Last name"
-        placeholder=""
-        {...form.getInputProps('lastName')}
-      />
-      <Space h={10} />
-      <TextInput
-        withAsterisk
-        label="Email"
-        placeholder="your@email.com"
-        {...form.getInputProps('email')}
-      />
-
-      <Space h={10} />
-      <Select
-        withAsterisk
-        label="Assign role"
-        placeholder="Role"
-        data={[
-          { value: 'admin', label: 'Admin' },
-          { value: 'user', label: 'User' },
-
-        ]}
-        disabled={isLoading}
-        {...form.getInputProps('role')}
-      />
-
-      <Space h={10} />
-
-      <Select
-        label="English level"
-        placeholder="Level"
-        maxDropdownHeight={150}
-        withAsterisk
-        data={[
-          { value: 'A1', label: 'A1 Beginner' },
-          { value: 'A2', label: 'A2 Elementary' },
-          { value: 'B1', label: 'B1 Intermediate' },
-          { value: 'B2', label: 'B2 Upper intermediate' },
-          { value: 'C1', label: 'C1 Advanced' },
-          { value: 'C2', label: 'C2 Proficiency' },
-        ]}
-        dropdownPosition="bottom"
-        disabled={isLoading}
-        {...form.getInputProps('english_level')}
-      />
-      <Space h={10} />
-      <TextInput
-        withAsterisk
-        label="CV link"
-        placeholder="Google drive link"
-        {...form.getInputProps('cv_link')}
-      />
-      <Space h={10} />
       <Textarea
         placeholder=""
-        label="Technical skills"
+        label="Team description"
         maxRows={5}
         autosize={true}
-        {...form.getInputProps('technical_skills')}
+        {...form.getInputProps('description')}
       />
+
       <Space h={20} />
 
-      <Divider />
-      <Space h={15} />
-      <Select
-        label="Assign to team"
-        placeholder="Team"
-        maxDropdownHeight={150}
-        data={[
-          { value: '001', label: 'Frontend' },
-          { value: '002', label: 'Backend' },
-        ]}
-        disabled={isLoading}
-
-        {...form.getInputProps('team')}
-      />
-      <Space h={10} />
-      <Select
-        label="Assign to account"
-        placeholder="Account"
-        maxDropdownHeight={150}
-        data={[
-          { value: '001', label: 'account 1' },
-          { value: '002', label: 'account 2' },
-        ]}
-        dropdownPosition="bottom"
-        disabled={isLoading}
-        {...form.getInputProps('account')}
-      />
 
 
       <Group position="right" mt="md">
@@ -181,44 +90,18 @@ const UserInfo = () => {
 
   return (
     <>
-      <Flex gap={10}>
-        <div>
-          <Flex justify={'flex-start'} align="center">
-          <IconTriangleSquareCircle  size={17} color={theme.colors.gray[6]}/>
-          <Text fw={600} color="dimmed" size={17}>Account</Text>
-          <Space w={10}/>
-          <Text fw={500} color={theme.colors.gray[7]}>Spotify</Text>
-          </Flex>
-          <Flex justify={'flex-start'} align="center">
-          <IconCircles  size={17} color={theme.colors.gray[6]}/>
-          <Text fw={600} color="dimmed" size={17}>Team</Text>
-          <Space w={10}/>
-          <Text fw={500} color={theme.colors.gray[7]}>Frontend</Text>
-          </Flex>          
-        </div>
 
-        
-      </Flex>
-      <Space h={10}/>
-      <Divider />
-      <Space h={10}/>
-      <DataField title='Name' value='Edgar' />
-      <DataField title='Last name' value='Santiago Guerrero' />
-      <DataField title='Email' value='esg.928@gial.com' />
-      <DataField title='Role' value='Admin' />
-      <DataField title='English level' value='C2' />
-      <DataField title='CV link' value='Admin' />
-
+      <DataField title='Name' value='Frontend' />
       <div>
         <div style={{ marginBottom: '1px' }}>
-          <Text fw={500} color="dimmed" fz="xs">Technical skills</Text>
+          <Text fw={500} color="dimmed" fz="xs">Team description</Text>
         </div>
         <div style={{ marginLeft: '5px' }}>
           {`this is a new technical skill
 gmelrgekr gergerg
 ergerg`.split("\n").map(function (item) {
             return (
-              <Text style={{ lineHeight: 1.15 }} color={theme.colors.gray[7]}>
+              <Text style={{ lineHeight: 1.15 }} color={theme.colors.gray[7]} key={`it${item}`}>
                 {item}
                 <br />
               </Text>
@@ -229,6 +112,15 @@ ergerg`.split("\n").map(function (item) {
   );
 };
 
+
+
+
+// const TeamMembers = () => {
+
+
+// return()
+
+// }
 
 
 
@@ -292,7 +184,7 @@ const ActivityLog = () => {
     </div>
   </div>);
 };
-const UserProfile = (props: Props) => {
+const TeamProfile = (props: Props) => {
   const { } = props;
   const { id } = useParams();
   const theme = useMantineTheme();
@@ -302,7 +194,7 @@ const UserProfile = (props: Props) => {
 
   const openModal = () => modals.openConfirmModal({
     title: <Text>
-      Delete user
+      Delete Team
     </Text>,
     centered: true,
     children: (
@@ -328,10 +220,17 @@ const UserProfile = (props: Props) => {
   });
 
 
+  useEffect(() => {
+    console.log('hola render');
+  }, []);
+
   const [isEditing, setIsEditing] = useState(false);
 
   return (
-    <MainLayout title='User Profile'>
+    // <>hola</>
+    <MainLayout title='Team summary'>
+
+
       <Flex
         gap="xs"
         justify="space-between"
@@ -340,7 +239,6 @@ const UserProfile = (props: Props) => {
         wrap="wrap"
         mt={15}
       >
-
         <Flex
           gap="xs"
           justify="flex-start"
@@ -349,63 +247,54 @@ const UserProfile = (props: Props) => {
           wrap="wrap"
           mt={15}
         >
-          <Avatar size={90} radius={100} src="https://placedog.net/500">
-            ES
-          </Avatar>
-          <Title order={2} color={theme.colors.gray[7]}>
-            Edgar Santiago
-          </Title>
 
+          <Title order={2} color={theme.colors.gray[7]}>
+            Frontend
+          </Title>
           <Tooltip label="User id" withArrow>
             <Text size={12} color="dimmed" fw={600}>3i3j4j5i3-3k32k44-33mm3</Text>
           </Tooltip>
-
         </Flex>
         <Button leftIcon={<IconEdit />} size={"xs"} variant="light" onClick={() => setIsEditing(!isEditing)}>
-          Edit</Button>
-
+          Edit team
+        </Button>
       </Flex>
       <Space h={30} />
-
-
       <Group grow align={'flex-start'}>
-        <Container>
-
-          <Transition mounted={isEditing} transition="slide-left" duration={150} timingFunction="ease">
-            {(styles) => <div style={styles}><EditUserForm /> </div>}
+        <Container style={{ minHeight: 200 }}>
+          <Transition mounted={isEditing} transition="slide-left" duration={150} exitDuration={100} timingFunction="ease">
+            {(styles) => <div style={styles}><EditTeamForm /> </div>}
           </Transition>
-
-          <Transition mounted={!isEditing} transition="slide-left" duration={150} timingFunction="ease">
+          <Transition mounted={!isEditing} transition="slide-left" duration={150} exitDuration={100} timingFunction="ease">
             {(styles) => <div style={styles}><UserInfo /> </div>}
           </Transition>
-
-
         </Container>
+        <div>
+          <Text color={'red'} fw={700}>
+            Danger zone
+          </Text>
+          <Space h={5} />
 
-        <Container>
-
-          <ActivityLog />
-        </Container>
+          <Button color={'red'} leftIcon={<IconTrash />} size={"xs"} variant="white" onClick={openModal}>
+            Delete team
+          </Button>
+        </div>
 
       </Group>
+<Space h={10}/>
+      <Group>
+<Flex>
+<Text>NonMembers</Text>
+<Text>Members</Text>
+</Flex>
+      </Group>
 
-      <Space h={20} />
-      <Divider />
-      <Space h={10} />
-      <div>
 
-        <Text color={'red'} fw={700}>
-          Danger zone
-        </Text>
-        <Space h={5} />
+      <DragList />
 
-        <Button color={'red'} leftIcon={<IconTrash />} size={"xs"} variant="white" onClick={openModal}>
-          Delete user
-        </Button>
-      </div>
 
     </MainLayout>
   );
 };
 
-export default UserProfile;
+export default TeamProfile;

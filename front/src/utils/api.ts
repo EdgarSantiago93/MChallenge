@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import  * as Api from './api_routes';
 
 const client = axios.create({
-  baseURL: Api.BASE_URL,
+  baseURL: 'http://localhost:3000/api',
   headers: {
     'Content-Type': 'application/json'
   }

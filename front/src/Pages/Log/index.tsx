@@ -1,11 +1,12 @@
-import { useState,useEffect } from 'react';
-import { createStyles, Table, Checkbox, Group, Avatar, Text, rem, Title, ScrollArea, Transition, Menu, Button, Space, ActionIcon, Drawer } from '@mantine/core';
+import { useState } from 'react';
+import { createStyles, Table, Group, Avatar, Text, ScrollArea, ActionIcon,Center } from '@mantine/core';
 import MainLayout from '@mind/Pages/Layout';
 import { User } from '@mind/data/models/User';
 import {
   IconGitMerge, IconTrash, IconBriefcase, IconPlus
 } from '@tabler/icons-react';
-import CreateTeamDrawer from '@mind/components/CreateTeamDrawer';
+import ActivityDetailDrawer from '@mind/components/ActivityDetailDrawer';
+import { NavLink } from 'react-router-dom';
 
 interface TableSelectionProps {
   datak: { avatar: string; name: string; email: string; job: string; id: string; }[];
@@ -23,9 +24,7 @@ const useStyles = createStyles((theme) => ({
 
 
 //  const ReadUsers= ({ datak }: TableSelectionProps) =>{
-const ReadTeams = () => {
-
-
+const LogPage = () => {
 
   const data: User[] = [
     new User({
@@ -143,14 +142,7 @@ const ReadTeams = () => {
     const selected = selection.includes(user.id);
     return (
       <tr key={user.id} className={cx({ [classes.rowSelected]: selected })}>
-        <td>
-          <Checkbox
-            checked={selection.includes(user.id)}
-            onChange={() => toggleRow(user.id)}
-            transitionDuration={50}
-            size="xs"
-          />
-        </td>
+        
         <td>
           <Group spacing="sm">
             <Avatar size={26} src={user.avatar} radius={26} style={{ zIndex: 9 }} />
@@ -164,9 +156,14 @@ const ReadTeams = () => {
         <td>{user.role}</td>
         <td>{user.createdAt}</td>
         <td>{user.updatedAt}</td>
-        <td><ActionIcon>
+        <td>
+        <NavLink to={'334'} style={{ textDecoration: 'none' }}>
+        <ActionIcon>
           <IconBriefcase size={20} />
-        </ActionIcon></td>
+        </ActionIcon>
+</NavLink>
+        
+        </td>
       </tr>
     );
   });
@@ -174,76 +171,32 @@ const ReadTeams = () => {
 
   const [createUserDrawerIsOpened, setCreateUserDrawerIsOpened] = useState(false);
 
-
-useEffect(() => {
-  console.log('read teams');
-}, []);
-
   return (
-    <MainLayout title='Teams' >
-      <CreateTeamDrawer isOpened={createUserDrawerIsOpened} setIsOpened={setCreateUserDrawerIsOpened} />
+    <MainLayout title='Activity' >
+      <ActivityDetailDrawer isOpened={createUserDrawerIsOpened} setIsOpened={setCreateUserDrawerIsOpened} />
       <ScrollArea>
-        <div style={{ display: "flex", justifyContent: "space-between", height: 35, marginTop: 15 }}>
-
-          <div>
-            <Transition mounted={selection.length > 0} transition="scale" duration={120} timingFunction="ease">
-              {(styles) => <div style={styles}>
-                <div style={{ display: 'flex', zIndex: 99999, justifyContent: 'center', alignItems: 'center', marginLeft: 15 }}>
-                  <Text weight={500} size={14}>{selection.length} selected</Text>
-                  <Menu shadow="md" width={200} position="right-start" >
-                    <Menu.Target>
-                      <Button size={"xs"} style={{ marginLeft: 10 }} variant="light">Actions</Button>
-                    </Menu.Target>
-                    <Menu.Dropdown>
-                      <Menu.Label>Users</Menu.Label>
-                      <Menu.Item icon={<IconGitMerge size={20} />}>Change role</Menu.Item>
-                      <Menu.Divider />
-                      <Menu.Label>Danger zone</Menu.Label>
-                      <Menu.Item color="red" icon={<IconTrash size={20} />}>Delete</Menu.Item>
-                    </Menu.Dropdown>
-                  </Menu>
-                </div>
-
-              </div>}
-            </Transition>
-          </div>
-
-
-
-
-          <Button variant="subtle" size={"xs"} onClick={() => setCreateUserDrawerIsOpened(true)}>
-            <IconPlus size={18} stroke={1.8} />
-            <Text style={{ marginLeft: 3 }}>Create Team</Text>
-          </Button>
-
-
-
-        </div>
-
-
-        <Table miw={"100%"} verticalSpacing="sm">
+      
+        <Table miw={"100%"} verticalSpacing="xs" >
           <thead>
             <tr>
-              <th style={{ width: rem(40) }}>
-                <Checkbox
-                  onChange={toggleAll}
-                  size="xs"
-                  checked={selection.length === data.length}
-                  indeterminate={selection.length > 0 && selection.length !== data.length}
-                  transitionDuration={0}
-                />
-              </th>
-              <th>Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Created at</th>
-              <th>Last updated</th>
+              <th>Action</th>
+              <th>Receiver</th>
+              <th>Causer</th>
+              <th>Type</th>
+              <th>Date</th>
               <th></th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
         </Table>
+
+        <Center>
+
+
+        <ActionIcon variant={'light'} style={{marginTop:10}}>
+          <IconPlus/>
+        </ActionIcon>
+        </Center>
       </ScrollArea>
 
 
@@ -251,4 +204,4 @@ useEffect(() => {
     </MainLayout>
   );
 };
-export default ReadTeams;
+export default LogPage;

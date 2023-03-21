@@ -7,6 +7,8 @@ import { createStyles, Table, Checkbox, Group, Avatar, Text, rem, Title, ScrollA
 import { useForm, UseFormReturnType } from '@mantine/form';
 import { CreateUserFormValues } from '@mind/data/Types/CreateUserFormValues';
 import { Roles } from '@mind/data/Types/UserRoles';
+import ConfirmClose from '@mind/components/ConfirmClose';
+
 interface Props {
   isOpened: boolean;
   setIsOpened: (isOpened: boolean) => void;
@@ -15,17 +17,17 @@ interface Props {
 
 const CreateUserDrawer = (props: Props) => {
   const { isOpened, setIsOpened } = props;
-  const [confirmUserClose, setConfirmUserClose] = useState(false);
+  const [confirmDrawerClose, setConfirmDrawerClose] = useState(false);
 
   const confirmCloseFn = () => {
     if (!form.isDirty()) {
       return setIsOpened(false);
     }
-    if (!confirmUserClose) {
-      return setConfirmUserClose(true);
+    if (!confirmDrawerClose) {
+      return setConfirmDrawerClose(true);
     }
     setIsOpened(false);
-    setConfirmUserClose(false);
+    setConfirmDrawerClose(false);
     form.reset();
   };
 
@@ -57,11 +59,12 @@ const CreateUserDrawer = (props: Props) => {
         </ActionIcon>
       </div>
 
-      {confirmUserClose ? (<>
-        you sure?
-        <Button onClick={() => setConfirmUserClose(false)}>No</Button>
-        <Button onClick={() => confirmCloseFn()}>Yes</Button>
-      </>) : (<CreateUserForm form={form} />)}
+      {confirmDrawerClose ? (<ConfirmClose
+        topText='Are you sure you want to close this form?'
+        bottomText='All data will be lost'
+        confirmFn={() => confirmCloseFn()}
+        cancelFn={() => setConfirmDrawerClose(false)}
+      />) : (<CreateUserForm form={form} />)}
     </Drawer>
 
   );
